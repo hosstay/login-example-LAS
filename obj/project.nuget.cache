@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ovB/LbDovYJuQEa6GR8I+Srfi4CUQU/8OvzujOzmbdNj5tnJzGcPqcif/7smGjcEMKYBG6Ozvth7FQESpQhFKg==",
+  "dgSpecHash": "x2tdmQgknkI0i2t4JMv1DnNL7Rfz4ehcdjYSKElIGSsp0ie2EJk0T9m577hz0Kxt7l7nBty7AXo55/6MkVUtOw==",
   "success": true,
-  "projectFilePath": "/login-example-SRA/login-example-SRA.csproj",
+  "projectFilePath": "/app/login-example-SRA.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

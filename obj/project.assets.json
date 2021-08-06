@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/login-example-SRA/login-example-SRA.csproj",
+      "projectUniqueName": "/app/login-example-SRA.csproj",
       "projectName": "login-example-SRA",
-      "projectPath": "/login-example-SRA/login-example-SRA.csproj",
+      "projectPath": "/app/login-example-SRA.csproj",
       "packagesPath": "/root/.nuget/packages/",
-      "outputPath": "/login-example-SRA/obj/",
+      "outputPath": "/app/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/root/.nuget/NuGet/NuGet.Config"
