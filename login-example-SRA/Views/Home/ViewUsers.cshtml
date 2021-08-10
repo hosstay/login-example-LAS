@@ -1,0 +1,55 @@
+@model IEnumerable<login_example_SRA.Models.UserViewModel>
+
+@{
+    ViewData["Title"] = "View Users";
+}
+
+<h2>View Users</h2>
+
+<p>
+    @Html.ActionLink("Create New", "CreateUsers")
+    @* <a class="nav-link text-dark" asp-area="" asp-action="CreateUsers">Create New</a> *@
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <th>
+            @Html.DisplayFor(modelItem => item.Id)
+        </th>
+        <td>
+            @Html.DisplayFor(modelItem => item.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Age)
+        </td>
+        <td>
+            @* <a class="nav-link text-dark" asp-area="" asp-action="Edit">Edit</a>
+            <a class="nav-link text-dark" asp-area="" asp-action="Details">Details</a>
+            <a class="nav-link text-dark" asp-area="" asp-action="Delete">Delete</a> *@
+            @Html.ActionLink("Edit", "UpdateUsers", new { Id = item.Id }, null)
+            <!-- @Html.ActionLink("Details", "Details") -->
+            @Html.ActionLink("Delete", "DeleteUsers", new { Id = item.Id }, null)
+        </td>
+    </tr>
+}
+
+</table>
