@@ -30,10 +30,8 @@ namespace DataLibrary.DataAccess
             using (IDbConnection cnn = new SqlConnection(GetConnectionString()))
             {
                 if (data != null) {
-                    Console.WriteLine("data != null");
                     return cnn.Query<T>(sql, data).ToList();
                 } else {
-                    Console.WriteLine("data === null");
                     return cnn.Query<T>(sql).ToList();
                 }
             }
