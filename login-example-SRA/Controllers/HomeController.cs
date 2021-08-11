@@ -14,7 +14,7 @@ namespace login_example_SRA.Controllers
     public class HomeController : Controller
     {
 
-        private UserContext db = new UserContext();
+        private UsersContext db = new UsersContext();
 
         private readonly ILogger<HomeController> _logger;
 
