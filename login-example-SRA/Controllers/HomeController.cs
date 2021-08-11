@@ -6,13 +6,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using login_example_SRA.Models;
-using static DataLibrary.BusinessLogic.UserProcessor;
+using login_example_SRA.EFDataAccess;
 using Newtonsoft.Json;
 
 namespace login_example_SRA.Controllers
 {
     public class HomeController : Controller
     {
+
+        private UserContext db = new UserContext();
+
         private readonly ILogger<HomeController> _logger;
 
         public HomeController(ILogger<HomeController> logger)
@@ -34,14 +37,16 @@ namespace login_example_SRA.Controllers
         {
             ViewBag.Message = "User List";
 
-            var data = LoadUsers();
-            List<UserViewModel> users = new List<UserViewModel>();
+            var users = from u in db.Users select u;
+            var data = users.ToList();
+
+            List<UsersViewModel> usersViewList = new List<UsersViewModel>();
 
             foreach (var row in data)
             {
-                users.Add(new UserViewModel
+                usersViewList.Add(new UsersViewModel
                 {
-                    Id = row.Id,
+                    Id = row.ID,
                     Username = row.Username,
                     Password = row.Password,
                     Email = row.Email,
@@ -49,7 +54,7 @@ namespace login_example_SRA.Controllers
                 });
             }
 
-            return View(users);
+            return View(usersViewList);
         }
 
         public ActionResult CreateUsers()
@@ -61,32 +66,36 @@ namespace login_example_SRA.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateUsers(UserViewModel model)
+        public ActionResult CreateUsers(UsersViewModel model)
         {
             if (ModelState.IsValid)
             {
-                int recordsCreated = CreateUser(
-                    model.Username,
-                    model.Password,
-                    model.Email,
-                    model.Age
-                );
+                Users users = new Users
+                {
+                    Username = model.Username, 
+                    Password = model.Password, 
+                    Email = model.Email, 
+                    Age = model.Age
+                };
 
-                return RedirectToAction("Index");
+                db.Users.Add(users);
+                db.SaveChanges();
+
+                return RedirectToAction("ViewUsers");
             }
 
             return View();
         }
 
-        public ActionResult UpdateUsers(int Id)
+        public ActionResult UpdateUsers(int ID)
         {
             ViewBag.Message = "User Update.";
 
-            var data = LoadUser(Id);
+            var data = db.Users.Find(ID);
 
-            UserViewModel user = new UserViewModel
+            UsersViewModel user = new UsersViewModel
             {
-                Id = data.Id,
+                Id = data.ID,
                 Username = data.Username,
                 Password = data.Password,
                 Email = data.Email,
@@ -98,52 +107,33 @@ namespace login_example_SRA.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UpdateUsers(UserViewModel model)
+        public ActionResult UpdateUsers(UsersViewModel model)
         {
             if (ModelState.IsValid)
             {
-                int recordsCreated = UpdateUser(
-                    model.Id,
-                    model.Username,
-                    model.Password,
-                    model.Email,
-                    model.Age
-                );
 
-                return RedirectToAction("Index");
+                var userToUpdate = db.Users.Find(model.Id);
+                userToUpdate.Username = model.Username;
+                userToUpdate.Password = model.Password;
+                userToUpdate.Email = model.Email;
+                userToUpdate.Age = model.Age;
+                db.SaveChanges();
+
+                return RedirectToAction("ViewUsers");               
             }
 
             return View();
         }
 
-        public ActionResult DeleteUsers(int Id)
+        public ActionResult DeleteUsers(int ID)
         {
             ViewBag.Message = "User Delete.";
 
-            var data = LoadUser(Id);
+            var userToDelete = db.Users.Find(ID);
+            db.Users.Remove(userToDelete);
+            db.SaveChanges();
 
-            UserViewModel user = new UserViewModel
-            {
-                Id = data.Id
-            };
-
-            return View(user);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteUsers(UserViewModel model)
-        {
-            if (model.Id != null)
-            {
-                int recordsCreated = DeleteUser(
-                    model.Id
-                );
-
-                return RedirectToAction("Index");
-            }
-
-            return View();
+            return RedirectToAction("ViewUsers");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

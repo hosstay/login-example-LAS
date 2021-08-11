@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace login_example_SRA.Models
 {
-    public class UserViewModel
+    public class UsersViewModel
     {
         public int Id { get; set; }
 

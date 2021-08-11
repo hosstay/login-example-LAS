@@ -1,11 +1,12 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DataLibrary.Models
+namespace login_example_SRA.EFDataAccess
 {
-    public class UserDataModel
+    public class Users
     {
-        public int Id { get; set; }
+        public int ID { get; set; }
+
         public string Username { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
