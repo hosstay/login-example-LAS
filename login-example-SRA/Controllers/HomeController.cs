@@ -13,14 +13,14 @@ namespace login_example_SRA.Controllers
 {
     public class HomeController : Controller
     {
-
-        private UsersContext db = new UsersContext();
-
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _db;
+        // private UsersContext db = new UsersContext();
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext db, ILogger<HomeController> logger)
         {
             _logger = logger;
+            _db = db;
         }
 
         public IActionResult Index()
@@ -37,7 +37,7 @@ namespace login_example_SRA.Controllers
         {
             ViewBag.Message = "User List";
 
-            var users = from u in db.Users select u;
+            var users = from u in _db.Users select u;
             var data = users.ToList();
 
             List<UsersViewModel> usersViewList = new List<UsersViewModel>();
@@ -78,8 +78,8 @@ namespace login_example_SRA.Controllers
                     Age = model.Age
                 };
 
-                db.Users.Add(users);
-                db.SaveChanges();
+                _db.Users.Add(users);
+                _db.SaveChanges();
 
                 return RedirectToAction("ViewUsers");
             }
@@ -91,7 +91,7 @@ namespace login_example_SRA.Controllers
         {
             ViewBag.Message = "User Update.";
 
-            var data = db.Users.Find(ID);
+            var data = _db.Users.Find(ID);
 
             UsersViewModel user = new UsersViewModel
             {
@@ -112,12 +112,12 @@ namespace login_example_SRA.Controllers
             if (ModelState.IsValid)
             {
 
-                var userToUpdate = db.Users.Find(model.Id);
+                var userToUpdate = _db.Users.Find(model.Id);
                 userToUpdate.Username = model.Username;
                 userToUpdate.Password = model.Password;
                 userToUpdate.Email = model.Email;
                 userToUpdate.Age = model.Age;
-                db.SaveChanges();
+                _db.SaveChanges();
 
                 return RedirectToAction("ViewUsers");               
             }
@@ -129,9 +129,9 @@ namespace login_example_SRA.Controllers
         {
             ViewBag.Message = "User Delete.";
 
-            var userToDelete = db.Users.Find(ID);
-            db.Users.Remove(userToDelete);
-            db.SaveChanges();
+            var userToDelete = _db.Users.Find(ID);
+            _db.Users.Remove(userToDelete);
+            _db.SaveChanges();
 
             return RedirectToAction("ViewUsers");
         }
