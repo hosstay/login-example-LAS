@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+// using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Identity;
+
 using login_example_SRA.Models;
 using login_example_SRA.EFDataAccess;
-using Newtonsoft.Json;
-using System.Web;
-using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
+
 
 namespace login_example_SRA.Controllers
 {

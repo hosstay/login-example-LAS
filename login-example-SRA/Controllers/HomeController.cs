@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using login_example_SRA.Models;
-using Newtonsoft.Json;
-using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+
+using login_example_SRA.Models;
 
 namespace login_example_SRA.Controllers
 {
@@ -22,8 +19,6 @@ namespace login_example_SRA.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            // Console.WriteLine(Request.Cookies["SessionToken"]);
-
             return View();
         }
 
