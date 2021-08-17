@@ -60,10 +60,10 @@ namespace login_example_SRA.Controllers
                     {
                         return RedirectToAction("Index", "Home");
                     } else {
-                        ModelState.AddModelError("", "Could not sign in.");
+                        ModelState.AddModelError("", "That password was not correct.");
                     }
                 } else {
-                    ModelState.AddModelError("", "Your username either doesn't exist or your password was wrong.");
+                    ModelState.AddModelError("", "That username doesn't exist.");
                 }
             }
 
