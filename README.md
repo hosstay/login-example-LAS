@@ -45,6 +45,7 @@ via GUI (in my case SQL Server (mssql) for VS Code):
 ## Built With
 
 * [ASP.NET MVC](https://dotnet.microsoft.com/apps/aspnet/mvc) - Web Framework
+* [SQL Server](https://www.microsoft.com/en-us/sql-server) - Database
 * [Docker](https://www.docker.com/) - Containerization
 
 ## Authors
