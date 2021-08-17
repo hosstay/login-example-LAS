@@ -6,134 +6,42 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using login_example_SRA.Models;
-using login_example_SRA.EFDataAccess;
 using Newtonsoft.Json;
+using System.Web;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace login_example_SRA.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _db;
-        // private UsersContext db = new UsersContext();
-
-        public HomeController(ApplicationDbContext db, ILogger<HomeController> logger)
+        public HomeController()
         {
-            _logger = logger;
-            _db = db;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public ActionResult ViewUsers()
-        {
-            ViewBag.Message = "User List";
-
-            var users = from u in _db.Users select u;
-            var data = users.ToList();
-
-            List<UsersViewModel> usersViewList = new List<UsersViewModel>();
-
-            foreach (var row in data)
-            {
-                usersViewList.Add(new UsersViewModel
-                {
-                    Id = row.ID,
-                    Username = row.Username,
-                    Password = row.Password,
-                    Email = row.Email,
-                    Age = row.Age
-                });
-            }
-
-            return View(usersViewList);
-        }
-
-        public ActionResult CreateUsers()
-        {
-            ViewBag.Message = "User Sign Up.";
+            // Console.WriteLine(Request.Cookies["SessionToken"]);
 
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateUsers(UsersViewModel model)
+        [Authorize]
+        public IActionResult NamePage()
         {
-            if (ModelState.IsValid)
-            {
-                Users users = new Users
-                {
-                    Username = model.Username, 
-                    Password = model.Password, 
-                    Email = model.Email, 
-                    Age = model.Age
-                };
-
-                _db.Users.Add(users);
-                _db.SaveChanges();
-
-                return RedirectToAction("ViewUsers");
-            }
-
             return View();
         }
 
-        public ActionResult UpdateUsers(int ID)
+        [Authorize]
+        public IActionResult Surf()
         {
-            ViewBag.Message = "User Update.";
-
-            var data = _db.Users.Find(ID);
-
-            UsersViewModel user = new UsersViewModel
-            {
-                Id = data.ID,
-                Username = data.Username,
-                Password = data.Password,
-                Email = data.Email,
-                Age = data.Age
-            };
-
-            return View(user);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult UpdateUsers(UsersViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-
-                var userToUpdate = _db.Users.Find(model.Id);
-                userToUpdate.Username = model.Username;
-                userToUpdate.Password = model.Password;
-                userToUpdate.Email = model.Email;
-                userToUpdate.Age = model.Age;
-                _db.SaveChanges();
-
-                return RedirectToAction("ViewUsers");               
-            }
-
             return View();
         }
 
-        public ActionResult DeleteUsers(int ID)
+        public IActionResult Logout()
         {
-            ViewBag.Message = "User Delete.";
-
-            var userToDelete = _db.Users.Find(ID);
-            _db.Users.Remove(userToDelete);
-            _db.SaveChanges();
-
-            return RedirectToAction("ViewUsers");
+            return RedirectToAction("Logout", "Authentication");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

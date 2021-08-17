@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Name Page";
+}
+
+@section Scripts {
+    <script>
+        function submit(event) {
+            console.log(event);
+            const value = document.getElementById('input').value;
+            document.getElementById('output').innerHTML = `${value} is awesome!`;
+        }
+    </script>
+}
+
+<label>Enter Name:</label>
+<input id='input'></input>
+<br />
+<br />
+
+<input type="button" value="Submit" onclick="submit(event)">
+<br />
+
+<p id="output"></p>

@@ -1,0 +1,41 @@
+﻿@model login_example_SRA.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+@{
+    Layout = "~/Views/Authentication/_AuthLayout.cshtml";
+}
+
+<form id="auth-div" asp-action="Login" method="post">
+    <label id="title">Test Website</label>
+    <br />
+    <br />
+
+    <div class="form-group">
+        <div id="input-div">
+            <label asp-for="Username" class="control-label float-left"></label>
+            <input asp-for="Username" class="form-control float-right w-auto" onkeypress="handleCapsLock(event)"></input>
+        </div>
+        <span asp-validation-for="Username" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <div id="input-div">
+            <label asp-for="Password" class="control-label float-left"></label>
+            <input asp-for="Password" class="form-control float-right w-auto" onkeypress="handleCapsLock(event)"></input>
+        </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+
+    <input type="submit" class="float-right" value="Login">
+    <input type="button" class="float-left" value="Register" onclick="location.href='@Url.Action("Register")'">
+    <br />
+    <br />
+
+    <div id="error-text" asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div id="error-text-editable" class="text-danger"></div>
+    <br />
+    <br />
+</form>

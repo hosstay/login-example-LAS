@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <script>
+        // Informs the user when capslock is on.
+        function handleCapsLock(event) {
+            event = event || window.event;
+            const char = String.fromCharCode(event.keyCode || event.which);
+
+            if (char.toUpperCase() === char && char.toLowerCase() !== char && !event.shiftKey) {
+                document.getElementById('error-text-editable').innerHTML = 'Caps Lock is on.';
+            } else {
+                document.getElementById('error-text-editable').innerHTML = '';
+            }
+        }
+    </script>
+    @RenderSection("Scripts", false)
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/authentication.css" />
+    @RenderSection("Styles", false)
+</head>
+<body>
+
+    @RenderBody()
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("AsyncScripts", required: false)
+</body>
+</html>

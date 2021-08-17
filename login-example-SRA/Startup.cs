@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using login_example_SRA.EFDataAccess;
+using Microsoft.AspNetCore.Identity;
 
 namespace login_example_SRA
 {
@@ -30,10 +31,21 @@ namespace login_example_SRA
             services.AddDbContext<ApplicationDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             );
+
+            services.AddIdentity<IdentityUser, IdentityRole>(config => {
+                config.Password.RequiredLength = 8;
+            })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.ConfigureApplicationCookie(config => {
+                config.Cookie.Name = "Identity.Cookie";
+                config.LoginPath = "/Authentication/Login";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext applicationDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -50,6 +62,10 @@ namespace login_example_SRA
 
             app.UseRouting();
 
+            // Who are you?
+            app.UseAuthentication();
+
+            // Are you allowed?
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
