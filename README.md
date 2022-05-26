@@ -1,4 +1,4 @@
-# Login Example LAS
+# Login Example SRA
 
 An implementation of a website with login using ASP.NET MVC, React, and SQL Server built in docker (In Progress)
 
